@@ -10,7 +10,8 @@ from nltk.tokenize import word_tokenize
 
 from flask import Flask
 from flask import render_template, request
-from plotly.graph_objs import Bar
+from plotly.subplots import make_subplots
+# from plotly.graph_objs import Bar
 from sqlalchemy import create_engine
 
 PATH_ROOT = os.path.realpath(os.path.dirname(os.path.dirname(__file__)))
@@ -45,31 +46,69 @@ def index():
     
     # extract data needed for visuals
     # TODO: Below is an example - modify to extract data for your own visuals
-    genre_counts = df.groupby('genre').count()['message']
-    genre_names = list(genre_counts.index)
-    
+    # genre_counts = df.groupby('genre').count()['message']
+    # genre_names = list(genre_counts.index)
+    counts = df.loc[:, pd.IndexSlice['related':'direct_report']].sum().sort_values(ascending=True)
+    languages = df.apply(lambda x: 1 if x.message == x.original else 0, axis=1).value_counts()
+
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
-    graphs = [
-        {
-            'data': [
-                Bar(
-                    x=genre_names,
-                    y=genre_counts
-                )
-            ],
-
-            'layout': {
-                'title': 'Distribution of Message Genres',
-                'yaxis': {
-                    'title': "Count"
-                },
-                'xaxis': {
-                    'title': "Genre"
-                }
-            }
-        }
-    ]
+    # graphs = [
+    #     {
+    #         'data': [
+    #             Bar(
+    #                 x=genre_names,
+    #                 y=genre_counts
+    #             )
+    #         ],
+    #
+    #         'layout': {
+    #             'title': 'Distribution of Message Genres',
+    #             'yaxis': {
+    #                 'title': "Count"
+    #             },
+    #             'xaxis': {
+    #                 'title': "Genre"
+    #             }
+    #         }
+    #     }
+    # ]
+    fig = make_subplots(rows=1,
+                        cols=2,
+                        shared_xaxes=False,
+                        shared_yaxes=False,
+                        subplot_titles=(
+                            'Number of messages per catgeory', 'Number of messages per language'
+                        ),
+                        specs=[[{'type': 'bar'}, {'type': 'bar'}]])
+    fig.add_trace({'y': counts.index,
+                   'x': counts,
+                   'orientation': 'h',
+                   'name': '',
+                   'marker': {'color': 'green'},
+                   'type': 'bar'}, row=1, col=1)
+    fig.add_trace({'x': ['Foreign languages', 'English'],
+                   'y': languages,
+                   'name': '',
+                   'marker': {'color': 'cornflowerblue'},
+                   'type': 'bar'}, row=1, col=2)
+    fig.update_xaxes({'title': {'text': 'Number of messages', 'font': {'size': 12}}},
+                     col=1,
+                     row=1)
+    fig.update_yaxes({'title': {'text': 'Categories', 'font': {'size': 12}}},
+                     col=1,
+                     row=1)
+    fig.update_xaxes({'title': {'text': 'Languages', 'font': {'size': 12}}},
+                     row=1,
+                     col=2)
+    fig.update_yaxes(
+        {'title': {
+            'text': 'Number of messages<br>(Logarithmic scale)',
+            'font': {'size': 12}
+        },
+            'type': 'log'}, row=1, col=2)
+    fig.update_layout({'showlegend': False, 'height': 700})
+    graphs = [fig]
     
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
