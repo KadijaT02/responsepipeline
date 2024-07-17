@@ -1,11 +1,10 @@
-import nltk
 import re
 import sys
 
 import cloudpickle
+import nltk
 import numpy as np
 import pandas as pd
-
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from sklearn.ensemble import HistGradientBoostingClassifier

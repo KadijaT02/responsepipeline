@@ -1,17 +1,14 @@
-import cloudpickle
 import json
 import os
-import plotly
 
+import cloudpickle
 import pandas as pd
-
-from nltk.stem import WordNetLemmatizer
-from nltk.tokenize import word_tokenize
-
+import plotly
 from flask import Flask
 from flask import render_template, request
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
 from plotly.subplots import make_subplots
-# from plotly.graph_objs import Bar
 from sqlalchemy import create_engine
 
 PATH_ROOT = os.path.realpath(os.path.dirname(os.path.dirname(__file__)))
