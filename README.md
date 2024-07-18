@@ -57,7 +57,7 @@ for the test set.
 4. **app** contains the files required to run the web app where the user
 can input a message and get classification results. 
 
-Important Note: the size of the Machine Learning pipeline being more 
+**Important Note**: the size of the Machine Learning pipeline being more 
 than 100MB, the model was stored using the Git Large File Storage 
 extension. 
 
@@ -81,6 +81,7 @@ as a pickle file
 3. To run the web app - the web app will then be available at 
 http://127.0.0.1:5000/
 ```
+> cd app
 > python run.py
 ```
 
