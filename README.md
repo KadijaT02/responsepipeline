@@ -57,6 +57,10 @@ for the test set.
 4. **app** contains the files required to run the web app where the user
 can input a message and get classification results. 
 
+Important Note: the size of the Machine Learning pipeline being more 
+than 100MB, the model was stored using the Git Large File Storage 
+extension. 
+
 # Instructions
 
 The following commands can be run in the project's root directory to set
@@ -75,7 +79,7 @@ as a pickle file
 ```
 
 3. To run the web app - the web app will then be available at 
-http://0.0.0.0:5000/
+http://127.0.0.1:5000/
 ```
 > python run.py
 ```
