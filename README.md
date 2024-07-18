@@ -22,7 +22,7 @@ environment:
 
 ```
 > cd /path/to/responsepipeline
-> pip install -r requirements.txt**
+> pip install -r requirements.txt
 ```
 
 # Project Motivation<a name="motivation"></a>
