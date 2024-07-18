@@ -201,13 +201,12 @@ def main():
         print('Trained model saved!')
 
         # ADDITIONAL STEP (Optional): run gridsearch on the model
-        # grid for the `model` estimator
-        # param_grid = {'clf__estimator__learning_rate': [0.1, 0.2, 0.3],
-        #               'clf__estimator__max_iter': [85, 100, 115]}
-        # best_model = gridsearch(model=model,
-        #                         param_grid=param_grid,
-        #                         x_train=X_train,
-        #                         y_train=Y_train)
+        param_grid = {'clf__estimator__learning_rate': [0.1, 0.2, 0.3],
+                      'clf__estimator__max_iter': [85, 100, 115]}
+        best_model = gridsearch(model=model,
+                                param_grid=param_grid,
+                                x_train=X_train,
+                                y_train=Y_train)
     else:
         print('Please provide the filepath of the disaster messages database '\
               'as the first argument and the filepath of the pickle file to '\
